@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import traceback
@@ -114,7 +114,6 @@ def main():
         temp_final.replace(final_video)
 
         try:
-            silent_video.unlink(missing_ok=True)
             voice_wav.unlink(missing_ok=True)
         except OSError:
             pass
@@ -135,3 +134,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

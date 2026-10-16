@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import hashlib
 import json
 import math
@@ -83,7 +83,7 @@ def read_json(path: Path):
 def repair_mojibake(text):
     if not isinstance(text, str):
         return text
-    if "Ã" not in text and "ðŸ" not in text and "Â" not in text:
+    if "Ãƒ" not in text and "Ã°Å¸" not in text and "Ã‚" not in text:
         return text
     try:
         fixed = text.encode("latin1").decode("utf-8")
@@ -272,9 +272,9 @@ def make_gaming_scenes(plan, duration):
 
         text = clean_text(base.get("on_screen_text", ""))
         if purpose == "hook":
-            text = "THAT WAS TOO CLOSE 😳"
+            text = "THAT WAS TOO CLOSE ðŸ˜³"
         elif purpose == "victory":
-            text = "FOLLOW FOR MORE 🎮"
+            text = "FOLLOW FOR MORE ðŸŽ®"
         else:
             text = ""
 
@@ -642,7 +642,7 @@ def classify_effects(scene):
     text = " ".join(
         [
             clean_text(scene.get("action", "")),
-            clean_text(scene.get("narration", "")),
+            clean_text(scene.get("narration_text", "")),
             " ".join(scene.get("sfx", []) or []),
         ]
     ).lower()
@@ -735,7 +735,7 @@ def make_drawtext_filter(scene_dir, scene, captions_enabled):
         return None
 
     font_q = ffmpeg_path(font)
-    caption_text = clean_text(scene.get("narration", ""))
+    caption_text = clean_text(scene.get("narration_text", ""))
     onscreen = clean_text(scene.get("on_screen_text", ""))
 
     if captions_enabled and caption_text:
@@ -995,12 +995,12 @@ def main():
             settings,
         )
 
-        if voice_required and clean_text(scene.get("narration", "")):
+        if voice_required and clean_text(scene.get("narration_text", "")):
             narration_wav = call_audio_worker(
                 scene_dir,
                 f"audio_{stamp}_{index:02d}",
                 silent_video,
-                clean_text(scene.get("narration", "")),
+                clean_text(scene.get("narration_text", "")),
                 args.voice_mode,
                 voice_reference,
             )
@@ -1058,3 +1058,4 @@ if __name__ == "__main__":
         print(str(exc), flush=True)
         traceback.print_exc()
         raise SystemExit(1)
+
